@@ -1,774 +1,1489 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTuber Profile - Sez Solomuel</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* ปรับสีให้มีมิติ ไม่ดำสนิท */
-            --bg-base: #040508;
-            --bg-card-gradient: linear-gradient(145deg, #181c25 0%, #0a0c11 100%);
-            
-            --gold-brass: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --red-crimson: #9e0b0f;
-            --red-glow: rgba(158, 11, 15, 0.6);
-            --border-color: rgba(212, 175, 55, 0.3);
-            
-            --text-main: #f8f8ff;
-            --text-sub: #b0b5c5;
-            --text-muted: #6a7080;
-            
-            --font-detective: 'Cinzel', serif;
-            --font-code: 'Special Elite', monospace;
-            --font-thai: 'Kanit', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+<title>VTuber Profile - Sez Solomuel</title>
 
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            font-family: var(--font-thai);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        /* ฉากหลังตารางพร้อมแสงไฟสลัว */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(212, 175, 55, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
 
-        body::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 80%, rgba(158, 11, 15, 0.15) 0%, rgba(4, 5, 8, 0.95) 80%);
-            pointer-events: none;
-            z-index: -1;
-        }
 
-        /* ==========================================================================
-           2. DOSSIER CASE CARD (เพิ่มมิติ 3D นูน/ลึก)
-           ========================================================================== */
-        .card-container {
-            position: relative;
-            width: 100%;
-            max-width: 440px;
-            background: var(--bg-card-gradient);
-            border: 1px solid var(--border-color);
-            /* เงาตกกระทบด้านนอก + แสงสะท้อนด้านใน (Inner Shadow) */
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.95),
-                0 0 40px rgba(158, 11, 15, 0.15),
-                inset 1px 1px 2px rgba(255, 255, 255, 0.05),
-                inset -2px -2px 15px rgba(0, 0, 0, 0.8);
-            clip-path: polygon(
-                0 0, 
-                calc(100% - 25px) 0, 100% 25px, 
-                100% 100%, 
-                25px 100%, 0 calc(100% - 25px)
-            );
-            overflow: hidden;
-        }
+<style>
 
-        .stamp-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-family: var(--font-code);
-            font-size: 11px;
-            color: #ff3333;
-            border: 2px solid #ff3333;
-            padding: 4px 10px;
-            letter-spacing: 2px;
-            transform: rotate(8deg);
-            z-index: 10;
-            background: rgba(10, 10, 15, 0.9);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,51,51,0.3);
-            text-shadow: 0 0 5px rgba(255,51,51,0.5);
-        }
+:root{
 
-        /* ==========================================================================
-           3. BANNER & AVATAR
-           ========================================================================== */
-        .banner-wrapper {
-            width: 100%;
-            height: 160px;
-            position: relative;
-            background-color: #000;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
-            /* เงาใต้แบนเนอร์ */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-        }
+--bg:#040508;
 
-        .banner-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(120%) brightness(0.8);
-        }
-
-        .banner-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(10,12,17,1) 100%);
-        }
-
-        .card-content {
-            padding: 0 25px 35px;
-            text-align: center;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            width: 116px;
-            height: 116px;
-            margin: -58px auto 18px;
-            z-index: 5;
-            /* เงาให้รูปลอยเด้งออกมา */
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.9));
-        }
-
-        .avatar-frame {
-            width: 100%;
-            height: 100%;
-            padding: 4px;
-            background: linear-gradient(135deg, #ffe55c, var(--gold-brass), var(--red-crimson), #4a0000);
-            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-        }
-
-        .avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-            background-color: #000;
-            display: block;
-        }
-
-        /* ==========================================================================
-           4. TYPOGRAPHY
-           ========================================================================== */
-        .detective-title {
-            font-family: var(--font-detective);
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            background: linear-gradient(to bottom, #ffffff, #d4af37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            margin-bottom: 2px;
-        }
-
-        .case-code {
-            font-family: var(--font-code);
-            font-size: 11px;
-            color: var(--gold-brass);
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
-        }
-
-        .vtuber-lore {
-            font-size: 13px;
-            color: #d0d5e0;
-            font-weight: 300;
-            margin-bottom: 25px;
-            line-height: 1.6;
-            font-style: italic;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-
-        /* ==========================================================================
-           5. ACTION BUTTONS (มีแสงเงาแบบ 3D)
-           ========================================================================== */
-        .links-group {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 25px;
-        }
-
-        .btn-link {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            /* ไล่เฉดสีปุ่มให้นูนขึ้น */
-            background: linear-gradient(to bottom, #1d222e, #10131a);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 14px;
-            letter-spacing: 1px;
-            font-weight: 600;
-            /* เพิ่มมิติปุ่ม (แสงบน / เงาล่าง) */
-            box-shadow: 
-                0 4px 6px rgba(0,0,0,0.6),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .btn-link::before {
-            content: '►';
-            font-size: 11px;
-            color: var(--gold-brass);
-            margin-right: 12px;
-            text-shadow: 0 0 5px var(--gold-glow);
-            transition: transform 0.3s;
-        }
-
-        .btn-link:hover {
-            border-color: #ffe55c;
-            background: linear-gradient(to bottom, #252b3a, #161a24);
-            box-shadow: 
-                0 8px 15px rgba(0,0,0,0.8),
-                0 0 15px rgba(212, 175, 55, 0.3),
-                inset 0 1px 0 rgba(255,255,255,0.15);
-            transform: translateY(-2px);
-            color: #ffffff;
-        }
-
-        .btn-link:hover::before {
-            transform: translateX(4px);
-            color: var(--red-crimson);
-        }
-
-        /* Highlight Button: Donate (โดดเด่นสุด) */
-        .btn-link.btn-donate {
-            background: linear-gradient(to bottom, #8a0c10, #5a0608);
-            border-color: var(--red-crimson);
-            color: #ffffff;
-            box-shadow: 
-                0 5px 10px rgba(0,0,0,0.6),
-                inset 0 1px 0 rgba(255,100,100,0.4);
-        }
-
-        .btn-link.btn-donate:hover {
-            background: linear-gradient(to bottom, #a81014, #7a090b);
-            border-color: #ff3333;
-            box-shadow: 
-                0 8px 15px rgba(0,0,0,0.8),
-                0 0 20px rgba(158, 11, 15, 0.6),
-                inset 0 1px 0 rgba(255,150,150,0.5);
-        }
-
-        /* ==========================================================================
-           6. DOSSIER FILE FOOTER (ช่อง Hashtag แบบยุบลงไป)
-           ========================================================================== */
-        .info-grid {
-            /* สีพื้นหลังเข้มขึ้น + เงาด้านในให้ดูเหมือนช่องลึกลงไป */
-            background: #06080b;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: inset 0 3px 10px rgba(0,0,0,0.9);
-            padding: 16px;
-            text-align: left;
-            font-size: 12px;
-            border-radius: 4px;
-        }
-
-        .info-title {
-            font-family: var(--font-code);
-            color: var(--gold-brass);
-            font-size: 12px;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
-        }
-
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            list-style: none;
-            margin-bottom: 12px;
-        }
-
-        .tag-item {
-            background: linear-gradient(to bottom, #151820, #0a0c10);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 4px 10px;
-            color: var(--text-sub);
-            font-size: 11px;
-            font-family: var(--font-code);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .credits {
-            border-top: 1px dashed rgba(255, 255, 255, 0.1);
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-family: var(--font-code);
-        }
-
-        .credits span b {
-            color: #d0d5e0;
-        }
-        /* =====================================================
-   EXTRA FX PACK V1
-   เพิ่มโดยไม่ต้องแก้โค้ดเดิม
-=====================================================*/
-
-/* ---------- เปิดการ์ด ---------- */
-
-.card-container{
-    animation:cardOpen .8s cubic-bezier(.2,.8,.2,1);
-    transform-style:preserve-3d;
-    transition:
-        transform .45s,
-        box-shadow .45s;
-}
-
-@keyframes cardOpen{
-
-0%{
-opacity:0;
-transform:
-translateY(60px)
-rotateX(-35deg)
-scale(.95);
-}
-
-100%{
-opacity:1;
-transform:none;
-}
-
-}
-
-/* ---------- Hover 3D ---------- */
-
-.card-container:hover{
-
-transform:
-perspective(1200px)
-rotateX(4deg)
-rotateY(-4deg)
-translateY(-6px)
-scale(1.02);
-
-}
-
-/* ---------- Border Glow ---------- */
-
-.card-container::before{
-
-content:"";
-
-position:absolute;
-
-inset:-2px;
-
-background:
+--card:
 linear-gradient(
-45deg,
-transparent,
-rgba(212,175,55,.7),
-transparent,
-rgba(158,11,15,.8),
-transparent);
+145deg,
+#181c25,
+#090b10
+);
 
-background-size:300% 300%;
 
-filter:blur(10px);
+--gold:#d4af37;
 
-z-index:-1;
+--gold-light:#ffe55c;
 
-animation:borderGlow 7s linear infinite;
+--red:#9e0b0f;
 
-}
+--white:#f8f8ff;
 
-@keyframes borderGlow{
+--gray:#b0b5c5;
 
-0%{
-background-position:0% 50%;
-}
 
-100%{
-background-position:300% 50%;
-}
+--detective:
+'Cinzel',
+serif;
 
-}
 
-/* ---------- Scan Line ---------- */
+--code:
+'Special Elite',
+monospace;
 
-.card-container::after{
 
-content:"";
-
-position:absolute;
-
-left:0;
-
-top:-120%;
-
-width:100%;
-
-height:100%;
-
-background:
-linear-gradient(
-transparent,
-rgba(255,255,255,.06),
-transparent);
-
-pointer-events:none;
-
-animation:scanner 5s linear infinite;
+--thai:
+'Kanit',
+sans-serif;
 
 }
 
-@keyframes scanner{
 
-100%{
+/* =========================
+ RESET
+========================= */
 
-transform:translateY(250%);
 
-}
+*{
 
-}
+box-sizing:border-box;
 
-/* ---------- Banner Zoom ---------- */
+margin:0;
 
-.banner-img{
+padding:0;
 
-transition:transform 8s linear;
-
-}
-
-.card-container:hover .banner-img{
-
-transform:scale(1.08);
+user-select:none;
 
 }
 
-/* ---------- Banner Light ---------- */
 
-.banner-overlay{
 
-animation:bannerLight 8s ease infinite;
+body{
 
-}
 
-@keyframes bannerLight{
+min-height:100vh;
 
-0%,100%{
+display:flex;
 
-opacity:1;
+justify-content:center;
 
-}
+align-items:center;
 
-50%{
 
-opacity:.75;
+padding:20px;
 
-}
-
-}
-
-/* ---------- Avatar Glow ---------- */
-
-.avatar-wrapper{
-
-animation:avatarPulse 3s ease-in-out infinite;
-
-}
-
-@keyframes avatarPulse{
-
-0%,100%{
-
-filter:
-drop-shadow(0 0 10px rgba(212,175,55,.25));
-
-}
-
-50%{
-
-filter:
-drop-shadow(0 0 28px rgba(212,175,55,.85));
-
-}
-
-}
-
-/* ---------- Avatar Rotate ---------- */
-
-.avatar-frame{
-
-transition:.45s;
-
-}
-
-.card-container:hover .avatar-frame{
-
-transform:rotate(6deg);
-
-}
-
-/* ---------- ชื่อวิบวับ ---------- */
-
-.detective-title{
-
-background-size:200% auto;
-
-animation:titleShine 6s linear infinite;
-
-}
-
-@keyframes titleShine{
-
-100%{
-
-background-position:200% center;
-
-}
-
-}
-
-/* ---------- Stamp ---------- */
-
-.stamp-badge{
-
-animation:stampBlink 2s infinite;
-
-}
-
-@keyframes stampBlink{
-
-0%,100%{
-
-opacity:1;
-
-}
-
-50%{
-
-opacity:.45;
-
-}
-
-}
-
-/* ---------- ปุ่ม ---------- */
-
-.btn-link{
-
-overflow:hidden;
-
-position:relative;
-
-}
-
-.btn-link::after{
-
-content:"";
-
-position:absolute;
-
-top:0;
-
-left:-120%;
-
-width:60%;
-
-height:100%;
 
 background:
 
-linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.35),
-transparent);
+radial-gradient(
+circle at top,
+#18202d,
+#040508 55%
+);
 
-transform:skewX(-25deg);
-
-}
-
-.btn-link:hover::after{
-
-animation:btnShine .7s forwards;
-
-}
-
-@keyframes btnShine{
-
-100%{
-
-left:180%;
-
-}
-
-}
-
-/* ---------- ปุ่มลอย ---------- */
-
-.btn-link:hover{
-
-transform:
-translateY(-4px)
-scale(1.02);
-
-}
-
-/* ---------- Hashtag ---------- */
-
-.tag-item{
-
-transition:.3s;
-
-}
-
-.tag-item:hover{
 
 color:white;
 
-border-color:#d4af37;
+font-family:var(--thai);
 
-box-shadow:
+overflow-x:hidden;
 
-0 0 15px rgba(212,175,55,.45);
 
-transform:translateY(-2px);
+position:relative;
+
 
 }
 
-/* ---------- Footer ---------- */
+
+
+/* =========================
+ SNOW BACKGROUND
+========================= */
+
+
+body::before{
+
+
+content:"";
+
+
+position:fixed;
+
+inset:0;
+
+
+pointer-events:none;
+
+
+z-index:0;
+
+
+background-image:
+
+
+radial-gradient(
+circle,
+rgba(255,255,255,.75) 2px,
+transparent 3px
+),
+
+
+radial-gradient(
+circle,
+rgba(180,220,255,.55) 1px,
+transparent 2px
+);
+
+
+background-size:
+
+
+120px 120px,
+60px 60px;
+
+
+animation:
+
+snowFall 18s linear infinite;
+
+
+}
+
+
+
+@keyframes snowFall{
+
+
+from{
+
+
+background-position:
+
+0 -200px,
+40px -300px;
+
+
+}
+
+
+to{
+
+
+background-position:
+
+120px 900px,
+-80px 1000px;
+
+
+}
+
+
+}
+
+
+
+
+/* =========================
+ CARD
+========================= */
+
+
+.card-container{
+
+
+position:relative;
+
+
+width:100%;
+
+max-width:440px;
+
+
+background:var(--card);
+
+
+border:1px solid rgba(212,175,55,.35);
+
+
+clip-path:
+
+polygon(
+0 0,
+calc(100% - 25px) 0,
+100% 25px,
+100% 100%,
+25px 100%,
+0 calc(100% - 25px)
+);
+
+
+
+box-shadow:
+
+
+0 30px 70px black,
+
+0 0 40px rgba(158,11,15,.2),
+
+
+inset 0 0 30px rgba(0,0,0,.8);
+
+
+
+overflow:hidden;
+
+
+z-index:2;
+
+
+isolation:isolate;
+
+
+}
+
+
+
+/* =========================
+ ICE BORDER EFFECT
+========================= */
+
+
+.card-container::before{
+
+
+content:"";
+
+
+position:absolute;
+
+
+inset:-3px;
+
+
+background:
+
+linear-gradient(
+
+120deg,
+
+transparent,
+
+rgba(180,220,255,.8),
+
+transparent,
+
+rgba(212,175,55,.6),
+
+transparent
+
+);
+
+
+
+background-size:300% 300%;
+
+
+animation:
+
+iceMove 8s infinite;
+
+
+filter:blur(8px);
+
+
+z-index:-1;
+
+
+}
+
+
+
+@keyframes iceMove{
+
+
+0%{
+
+background-position:0% 50%;
+
+}
+
+
+50%{
+
+background-position:100% 50%;
+
+}
+
+
+100%{
+
+background-position:0% 50%;
+
+}
+
+
+}
+
+
+
+/* =========================
+ FOG
+========================= */
+
+
+.card-container::after{
+
+
+content:"";
+
+
+position:absolute;
+
+
+bottom:-40px;
+
+
+left:-20%;
+
+
+width:140%;
+
+
+height:130px;
+
+
+
+background:
+
+
+radial-gradient(
+
+ellipse,
+
+rgba(180,220,255,.15),
+
+transparent 70%
+
+);
+
+
+filter:blur(25px);
+
+
+
+animation:
+
+fogMove 12s ease-in-out infinite;
+
+
+
+pointer-events:none;
+
+
+
+z-index:1;
+
+
+}
+
+
+
+@keyframes fogMove{
+
+
+0%,100%{
+
+
+transform:translateX(-40px);
+
+opacity:.3;
+
+
+}
+
+
+50%{
+
+
+transform:translateX(40px);
+
+opacity:.8;
+
+
+}
+
+
+}
+
+
+
+/* =========================
+ STAMP
+========================= */
+
+
+.stamp-badge{
+
+
+position:absolute;
+
+
+top:20px;
+
+
+right:20px;
+
+
+
+font-family:var(--code);
+
+
+font-size:11px;
+
+
+letter-spacing:2px;
+
+
+color:#ff3333;
+
+
+border:2px solid #ff3333;
+
+
+padding:5px 10px;
+
+
+transform:rotate(8deg);
+
+
+background:rgba(0,0,0,.75);
+
+
+
+z-index:5;
+
+
+
+box-shadow:
+
+0 5px 15px black;
+
+
+animation:
+
+stampFloat 4s infinite ease-in-out;
+
+
+}
+
+
+
+@keyframes stampFloat{
+
+
+0%,100%{
+
+transform:
+rotate(8deg)
+translateY(0);
+
+}
+
+
+50%{
+
+transform:
+rotate(8deg)
+translateY(-4px);
+
+}
+
+
+}
+
+
+/* =========================
+ BANNER
+========================= */
+
+
+.banner-wrapper{
+
+
+height:160px;
+
+
+position:relative;
+
+
+background:black;
+
+
+
+border-bottom:
+
+2px solid rgba(212,175,55,.4);
+
+
+}
+
+
+.banner-img{
+
+
+width:100%;
+
+
+height:100%;
+
+
+object-fit:cover;
+
+
+filter:
+
+brightness(.75)
+contrast(120%);
+
+
+}
+
+
+.banner-overlay{
+
+
+position:absolute;
+
+
+inset:0;
+
+
+
+background:
+
+linear-gradient(
+
+to bottom,
+
+transparent,
+
+#090b10
+
+);
+
+
+}
+
+
+
+
+
+
+/* =========================
+ CONTENT
+========================= */
+
+
+.card-content{
+
+
+padding:
+
+0 25px 35px;
+
+
+text-align:center;
+
+
+}
+
+
+
+
+/* =========================
+ AVATAR
+========================= */
+
+
+.avatar-wrapper{
+
+
+width:116px;
+
+
+height:116px;
+
+
+margin:-58px auto 18px;
+
+
+position:relative;
+
+
+z-index:5;
+
+
+animation:
+
+avatarGlow 5s infinite ease-in-out;
+
+
+}
+
+
+
+@keyframes avatarGlow{
+
+
+0%,100%{
+
+
+filter:
+
+drop-shadow(
+0 0 12px rgba(212,175,55,.4)
+);
+
+
+}
+
+
+
+50%{
+
+
+filter:
+
+drop-shadow(
+0 0 30px rgba(180,220,255,.8)
+);
+
+
+}
+
+
+
+}
+
+
+
+.avatar-frame{
+
+
+width:100%;
+
+
+height:100%;
+
+
+padding:4px;
+
+
+
+background:
+
+linear-gradient(
+
+135deg,
+
+#ffe55c,
+
+#d4af37,
+
+#9e0b0f,
+
+#330000
+
+);
+
+
+
+clip-path:
+
+polygon(
+30% 0,
+70% 0,
+100% 30%,
+100% 70%,
+70% 100%,
+30% 100%,
+0 70%,
+0 30%
+);
+
+
+
+}
+
+
+
+.avatar-img{
+
+
+width:100%;
+
+
+height:100%;
+
+
+object-fit:cover;
+
+
+background:black;
+
+
+
+clip-path:
+
+polygon(
+30% 0,
+70% 0,
+100% 30%,
+100% 70%,
+70% 100%,
+30% 100%,
+0 70%,
+0 30%
+);
+
+
+
+display:block;
+
+
+}
+
+
+
+/* =========================
+ TITLE
+========================= */
+
+
+.detective-title{
+
+
+font-family:var(--detective);
+
+
+font-size:26px;
+
+
+font-weight:900;
+
+
+letter-spacing:4px;
+
+
+margin-bottom:5px;
+
+
+background:
+
+linear-gradient(
+
+white,
+
+#d4af37
+
+);
+
+
+-webkit-background-clip:text;
+
+
+-webkit-text-fill-color:transparent;
+
+
+
+text-shadow:
+
+0 5px 15px rgba(212,175,55,.4);
+
+
+}
+
+
+
+.case-code{
+
+
+font-family:var(--code);
+
+
+font-size:11px;
+
+
+letter-spacing:2px;
+
+
+color:#d4af37;
+
+
+margin-bottom:15px;
+
+
+}
+
+
+
+.vtuber-lore{
+
+
+font-size:13px;
+
+
+line-height:1.6;
+
+
+font-style:italic;
+
+
+color:#d0d5e0;
+
+
+margin-bottom:25px;
+
+
+}
+
+
+
+/* =========================
+ BUTTON AREA
+========================= */
+
+
+.links-group{
+
+
+display:flex;
+
+
+flex-direction:column;
+
+
+gap:14px;
+
+
+margin-bottom:25px;
+
+
+}
+
+
+
+
+.btn-link{
+
+
+position:relative;
+
+
+display:flex;
+
+
+align-items:center;
+
+
+justify-content:space-between;
+
+
+padding:
+
+14px 20px;
+
+
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#1d222e,
+
+#10131a
+
+);
+
+
+
+border:
+
+1px solid rgba(212,175,55,.3);
+
+
+
+color:white;
+
+
+text-decoration:none;
+
+
+font-size:14px;
+
+
+font-weight:600;
+
+
+letter-spacing:1px;
+
+
+
+overflow:hidden;
+
+
+
+transition:
+
+.35s ease;
+
+
+
+box-shadow:
+
+0 5px 10px black,
+
+inset 0 1px rgba(255,255,255,.1);
+
+
+
+}
+
+
+
+.btn-link::before{
+
+
+content:"►";
+
+
+color:#d4af37;
+
+
+margin-right:10px;
+
+
+transition:.3s;
+
+
+}
+
+
+
+
+.btn-link:hover{
+
+
+transform:
+
+translateY(-4px);
+
+
+
+border-color:#ffe55c;
+
+
+
+box-shadow:
+
+
+0 12px 25px black,
+
+0 0 18px rgba(212,175,55,.35);
+
+
+}
+
+
+
+.btn-link:hover::before{
+
+
+transform:
+
+translateX(5px);
+
+
+color:#ff3333;
+
+
+}
+
+
+
+/* DONATE */
+
+
+.btn-donate{
+
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#8a0c10,
+
+#520507
+
+);
+
+
+
+border-color:#9e0b0f;
+
+
+}
+
+
+
+.btn-donate:hover{
+
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#a81014,
+
+#70080b
+
+);
+
+
+box-shadow:
+
+
+0 12px 25px black,
+
+0 0 25px rgba(158,11,15,.7);
+
+
+}
+
+
+
+
+
+/* =========================
+ INFO BOX
+========================= */
+
 
 .info-grid{
 
-transition:.35s;
 
-}
+background:#06080b;
 
-.info-grid:hover{
+
+padding:16px;
+
+
+border:
+
+1px solid rgba(255,255,255,.05);
+
+
 
 box-shadow:
 
-inset 0 0 20px rgba(212,175,55,.12);
+inset 0 5px 15px black;
+
+
+text-align:left;
+
+
+}
+
+
+
+.info-title{
+
+
+font-family:var(--code);
+
+
+font-size:12px;
+
+
+letter-spacing:2px;
+
+
+color:#d4af37;
+
+
+margin-bottom:10px;
+
 
 }
 
 
 
 
-/* ---------- Background ---------- */
+.tag-list{
 
-body{
-    background-color: var(--bg-base);
-    background-size: 400px 400px;
-    animation: bgMove 20s linear infinite;
+
+display:flex;
+
+
+flex-wrap:wrap;
+
+
+gap:8px;
+
+
+list-style:none;
+
+
+margin-bottom:15px;
+
+
 }
 
-@keyframes bgMove{
-    0%{
-        background-position: 0 0;
-    }
 
-    100%{
-        background-position: 0 -300px;
-    }
+
+.tag-item{
+
+
+padding:
+
+5px 10px;
+
+
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#151820,
+
+#090b10
+
+);
+
+
+
+border:
+
+1px solid rgba(212,175,55,.25);
+
+
+
+font-family:var(--code);
+
+
+font-size:11px;
+
+
+color:#b0b5c5;
+
+
 }
 
-    </style>
+
+
+.credits{
+
+
+border-top:
+
+1px dashed rgba(255,255,255,.15);
+
+
+
+padding-top:10px;
+
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+font-family:var(--code);
+
+
+font-size:11px;
+
+
+color:#6a7080;
+
+
+}
+
+
+
+.credits b{
+
+
+color:#d0d5e0;
+
+
+}
+
+
+</style>
+
 </head>
+
+
 <body>
 
-    <div class="card-container">
-        
-        <div class="stamp-badge">CASE #009 // SECRET</div>
 
-        <div class="banner-wrapper">
-            <img src="banner.png" alt="VTuber Banner" class="banner-img">
-            <div class="banner-overlay"></div>
-        </div>
+<div class="card-container">
 
-        <div class="card-content">
-            
-            <div class="avatar-wrapper">
-                <div class="avatar-frame">
-                    <img src="avatar.png" alt="VTuber Model" class="avatar-img">
-                </div>
-            </div>
 
-            <h1 class="detective-title">SEZ SOLOMUEL</h1>
-            <div class="case-code">[ STATUS: ACTIVE DETECTIVE ]</div>
-            
-            <p class="vtuber-lore">
-                "สืบหาความจริงในเงามืด... สตรีมเมอร์นักสืบสายเกม คุยเฟื่อง และเสียงเพลง"
-            </p>
+    <div class="stamp-badge">
+        CASE #009 // SECRET
+    </div>
 
-            <div class="links-group">
-                <a href="https://youtube.com" class="btn-link" target="_blank">
-                    <span>📺 YOUTUBE CHANNEL</span>
-                </a>
 
-                <a href="https://facebook.com" class="btn-link" target="_blank">
-                    <span>📘 FACEBOOK PAGE</span>
-                </a>
 
-                <a href="https://tiktok.com" class="btn-link" target="_blank">
-                    <span>🎵 TIKTOK OFFICIAL</span>
-                </a>
+    <div class="banner-wrapper">
 
-                <a href="https://discord.gg" class="btn-link" target="_blank">
-                    <span>⚔️ HQ DISCORD SERVER</span>
-                </a>
+        <img 
+        src="banner.png" 
+        alt="VTuber Banner"
+        class="banner-img">
 
-                <a href="https://tipme.in.th" class="btn-link btn-donate" target="_blank">
-                    <span>💼 FUNDING & DONATE (สนับสนุน)</span>
-                </a>
-            </div>
-
-            <div class="info-grid">
-                <div class="info-title">EVIDENCE HASHTAGS</div>
-                <ul class="tag-list">
-                    <li class="tag-item">#SezLIVE</li>
-                    <li class="tag-item">#SezArt</li>
-                    <li class="tag-item">#SezMeme</li>
-                </ul>
-
-                <div class="credits">
-                    <span><b>MAMA:</b> @ArtistName</span>
-                    <span><b>PAPA:</b> @RiggerName</span>
-                </div>
-            </div>
-
-        </div>
+        <div class="banner-overlay"></div>
 
     </div>
 
+
+
+
+
+    <div class="card-content">
+
+
+
+        <div class="avatar-wrapper">
+
+            <div class="avatar-frame">
+
+                <img 
+                src="avatar.png"
+                alt="VTuber Model"
+                class="avatar-img">
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <h1 class="detective-title">
+            SEZ SOLOMUEL
+        </h1>
+
+
+        <div class="case-code">
+            [ STATUS: ACTIVE DETECTIVE ]
+        </div>
+
+
+
+
+
+        <p class="vtuber-lore">
+
+            "สืบหาความจริงในเงามืด...
+            สตรีมเมอร์นักสืบสายเกม คุยเฟื่อง และเสียงเพลง"
+
+        </p>
+
+
+
+
+
+
+
+        <div class="links-group">
+
+
+
+            <a 
+            href="https://youtube.com"
+            target="_blank"
+            class="btn-link">
+
+                <span>
+                📺 YOUTUBE CHANNEL
+                </span>
+
+            </a>
+
+
+
+
+
+            <a 
+            href="https://facebook.com"
+            target="_blank"
+            class="btn-link">
+
+                <span>
+                📘 FACEBOOK PAGE
+                </span>
+
+            </a>
+
+
+
+
+
+            <a 
+            href="https://tiktok.com"
+            target="_blank"
+            class="btn-link">
+
+                <span>
+                🎵 TIKTOK OFFICIAL
+                </span>
+
+            </a>
+
+
+
+
+
+            <a 
+            href="https://discord.gg"
+            target="_blank"
+            class="btn-link">
+
+                <span>
+                ⚔️ HQ DISCORD SERVER
+                </span>
+
+            </a>
+
+
+
+
+
+            <a 
+            href="https://tipme.in.th"
+            target="_blank"
+            class="btn-link btn-donate">
+
+
+                <span>
+                💼 FUNDING & DONATE (สนับสนุน)
+                </span>
+
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="info-grid">
+
+
+            <div class="info-title">
+
+                EVIDENCE HASHTAGS
+
+            </div>
+
+
+
+
+
+            <ul class="tag-list">
+
+
+                <li class="tag-item">
+                    #SezLIVE
+                </li>
+
+
+                <li class="tag-item">
+                    #SezArt
+                </li>
+
+
+                <li class="tag-item">
+                    #SezMeme
+                </li>
+
+
+            </ul>
+
+
+
+
+
+
+            <div class="credits">
+
+
+                <span>
+                    <b>MAMA:</b> @ArtistName
+                </span>
+
+
+                <span>
+                    <b>PAPA:</b> @RiggerName
+                </span>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
 </body>
+
 </html>
