@@ -3,30 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTuber Profile </title>
-    <!-- Google Fonts -->
+    <title>VTuber Profile - Sez Solomuel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================================================
-           1. NOIR DETECTIVE SYSTEM VARIABLES
-           ========================================================================== */
         :root {
-            --bg-base: #060709;
-            --bg-card: rgba(12, 14, 18, 0.92);
+            /* ปรับสีให้มีมิติ ไม่ดำสนิท */
+            --bg-base: #040508;
+            --bg-card-gradient: linear-gradient(145deg, #181c25 0%, #0a0c11 100%);
             
-            /* Noir Palette: Dark / Brass Gold / Blood Red */
             --gold-brass: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.3);
+            --gold-glow: rgba(212, 175, 55, 0.4);
             --red-crimson: #9e0b0f;
-            --red-glow: rgba(158, 11, 15, 0.5);
-            --border-color: rgba(212, 175, 55, 0.25);
+            --red-glow: rgba(158, 11, 15, 0.6);
+            --border-color: rgba(212, 175, 55, 0.3);
             
-            --text-main: #f0f0f5;
-            --text-sub: #a0a5b5;
-            --text-muted: #5a6070;
+            --text-main: #f8f8ff;
+            --text-sub: #b0b5c5;
+            --text-muted: #6a7080;
             
             --font-detective: 'Cinzel', serif;
             --font-code: 'Special Elite', monospace;
@@ -53,68 +49,69 @@
             position: relative;
         }
 
-        /* Detective Grid Background Layer */
+        /* ฉากหลังตารางพร้อมแสงไฟสลัว */
         body::before {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+                linear-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
             z-index: -2;
         }
 
-        /* Ambient Blood Red Vignette */
         body::after {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(6, 7, 9, 0.95) 90%),
-                        radial-gradient(circle at 80% 20%, rgba(158, 11, 15, 0.15) 0%, transparent 50%);
+            background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 80%, rgba(158, 11, 15, 0.15) 0%, rgba(4, 5, 8, 0.95) 80%);
             pointer-events: none;
             z-index: -1;
         }
 
         /* ==========================================================================
-           2. DOSSIER CASE CARD
+           2. DOSSIER CASE CARD (เพิ่มมิติ 3D นูน/ลึก)
            ========================================================================== */
         .card-container {
             position: relative;
             width: 100%;
             max-width: 440px;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
+            background: var(--bg-card-gradient);
             border: 1px solid var(--border-color);
+            /* เงาตกกระทบด้านนอก + แสงสะท้อนด้านใน (Inner Shadow) */
             box-shadow: 
-                0 25px 60px rgba(0, 0, 0, 0.95),
-                0 0 40px rgba(158, 11, 15, 0.2);
+                0 30px 60px rgba(0, 0, 0, 0.95),
+                0 0 40px rgba(158, 11, 15, 0.15),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.05),
+                inset -2px -2px 15px rgba(0, 0, 0, 0.8);
             clip-path: polygon(
                 0 0, 
-                calc(100% - 20px) 0, 100% 20px, 
+                calc(100% - 25px) 0, 100% 25px, 
                 100% 100%, 
-                20px 100%, 0 calc(100% - 20px)
+                25px 100%, 0 calc(100% - 25px)
             );
             overflow: hidden;
         }
 
-        /* Top Secret Stamp Badge */
         .stamp-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             font-family: var(--font-code);
-            font-size: 10px;
-            color: var(--red-crimson);
-            border: 1px solid var(--red-crimson);
-            padding: 3px 8px;
+            font-size: 11px;
+            color: #ff3333;
+            border: 2px solid #ff3333;
+            padding: 4px 10px;
             letter-spacing: 2px;
-            transform: rotate(5deg);
+            transform: rotate(8deg);
             z-index: 10;
-            background: rgba(12, 14, 18, 0.8);
-            box-shadow: 0 0 10px var(--red-glow);
+            background: rgba(10, 10, 15, 0.9);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,51,51,0.3);
+            text-shadow: 0 0 5px rgba(255,51,51,0.5);
         }
 
         /* ==========================================================================
@@ -124,21 +121,23 @@
             width: 100%;
             height: 160px;
             position: relative;
-            background-color: #12151c;
-            border-bottom: 1px solid var(--border-color);
+            background-color: #000;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+            /* เงาใต้แบนเนอร์ */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
         }
 
         .banner-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(30%) contrast(110%);
+            filter: grayscale(20%) contrast(120%) brightness(0.8);
         }
 
         .banner-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(6, 7, 9, 0.2) 0%, var(--bg-card) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(10,12,17,1) 100%);
         }
 
         .card-content {
@@ -148,18 +147,19 @@
 
         .avatar-wrapper {
             position: relative;
-            width: 110px;
-            height: 110px;
-            margin: -55px auto 15px;
+            width: 116px;
+            height: 116px;
+            margin: -58px auto 18px;
             z-index: 5;
+            /* เงาให้รูปลอยเด้งออกมา */
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.9));
         }
 
         .avatar-frame {
             width: 100%;
             height: 100%;
-            padding: 3px;
-            background: linear-gradient(135deg, var(--gold-brass), var(--red-crimson));
-            box-shadow: 0 0 20px var(--gold-glow);
+            padding: 4px;
+            background: linear-gradient(135deg, #ffe55c, var(--gold-brass), var(--red-crimson), #4a0000);
             clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
         }
 
@@ -173,16 +173,18 @@
         }
 
         /* ==========================================================================
-           4. TYPOGRAPHY & DOSSIER HEADER
+           4. TYPOGRAPHY
            ========================================================================== */
         .detective-title {
             font-family: var(--font-detective);
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 900;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-            margin-bottom: 4px;
+            letter-spacing: 4px;
+            background: linear-gradient(to bottom, #ffffff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            margin-bottom: 2px;
         }
 
         .case-code {
@@ -190,25 +192,27 @@
             font-size: 11px;
             color: var(--gold-brass);
             letter-spacing: 2px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
         }
 
         .vtuber-lore {
             font-size: 13px;
-            color: var(--text-sub);
+            color: #d0d5e0;
             font-weight: 300;
-            margin-bottom: 22px;
-            line-height: 1.5;
+            margin-bottom: 25px;
+            line-height: 1.6;
             font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
         /* ==========================================================================
-           5. ACTION BUTTONS
+           5. ACTION BUTTONS (มีแสงเงาแบบ 3D)
            ========================================================================== */
         .links-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 25px;
         }
 
@@ -217,111 +221,128 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 18px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 14px 20px;
+            /* ไล่เฉดสีปุ่มให้นูนขึ้น */
+            background: linear-gradient(to bottom, #1d222e, #10131a);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--text-main);
             text-decoration: none;
-            font-size: 13px;
+            font-size: 14px;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            /* เพิ่มมิติปุ่ม (แสงบน / เงาล่าง) */
+            box-shadow: 
+                0 4px 6px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .btn-link::before {
             content: '►';
-            font-size: 10px;
+            font-size: 11px;
             color: var(--gold-brass);
-            margin-right: 10px;
+            margin-right: 12px;
+            text-shadow: 0 0 5px var(--gold-glow);
             transition: transform 0.3s;
         }
 
         .btn-link:hover {
-            border-color: var(--gold-brass);
-            background: rgba(212, 175, 55, 0.08);
-            box-shadow: 0 0 15px var(--gold-glow);
-            transform: translateX(4px);
+            border-color: #ffe55c;
+            background: linear-gradient(to bottom, #252b3a, #161a24);
+            box-shadow: 
+                0 8px 15px rgba(0,0,0,0.8),
+                0 0 15px rgba(212, 175, 55, 0.3),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+            transform: translateY(-2px);
             color: #ffffff;
         }
 
         .btn-link:hover::before {
-            transform: translateX(3px);
+            transform: translateX(4px);
             color: var(--red-crimson);
         }
 
-        /* Highlight Button: Donate */
+        /* Highlight Button: Donate (โดดเด่นสุด) */
         .btn-link.btn-donate {
-            background: linear-gradient(90deg, rgba(158, 11, 15, 0.3), rgba(212, 175, 55, 0.15));
+            background: linear-gradient(to bottom, #8a0c10, #5a0608);
             border-color: var(--red-crimson);
             color: #ffffff;
-            font-weight: 600;
+            box-shadow: 
+                0 5px 10px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,100,100,0.4);
         }
 
         .btn-link.btn-donate:hover {
-            background: linear-gradient(90deg, var(--red-crimson), var(--gold-brass));
-            color: #000;
-            box-shadow: 0 0 20px var(--red-glow);
+            background: linear-gradient(to bottom, #a81014, #7a090b);
+            border-color: #ff3333;
+            box-shadow: 
+                0 8px 15px rgba(0,0,0,0.8),
+                0 0 20px rgba(158, 11, 15, 0.6),
+                inset 0 1px 0 rgba(255,150,150,0.5);
         }
 
         /* ==========================================================================
-           6. DOSSIER FILE FOOTER (HASHTAGS & CREDITS)
+           6. DOSSIER FILE FOOTER (ช่อง Hashtag แบบยุบลงไป)
            ========================================================================== */
         .info-grid {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px dashed rgba(212, 175, 55, 0.2);
-            padding: 14px;
+            /* สีพื้นหลังเข้มขึ้น + เงาด้านในให้ดูเหมือนช่องลึกลงไป */
+            background: #06080b;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: inset 0 3px 10px rgba(0,0,0,0.9);
+            padding: 16px;
             text-align: left;
             font-size: 12px;
+            border-radius: 4px;
         }
 
         .info-title {
             font-family: var(--font-code);
             color: var(--gold-brass);
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
         }
 
         .tag-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
             list-style: none;
             margin-bottom: 12px;
         }
 
         .tag-item {
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            padding: 3px 8px;
+            background: linear-gradient(to bottom, #151820, #0a0c10);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 4px 10px;
             color: var(--text-sub);
+            font-size: 11px;
+            font-family: var(--font-code);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .credits {
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
             font-size: 11px;
             font-family: var(--font-code);
         }
 
-        .credits {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 8px;
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-family: var(--font-code);
-        }
-
         .credits span b {
-            color: var(--text-sub);
+            color: #d0d5e0;
         }
     </style>
 </head>
 <body>
 
-    <!-- Main Dossier Card -->
     <div class="card-container">
         
-        <!-- Stamp Top Secret -->
         <div class="stamp-badge">CASE #009 // SECRET</div>
 
-        <!-- รูปปก / Banner -->
         <div class="banner-wrapper">
             <img src="banner.png" alt="VTuber Banner" class="banner-img">
             <div class="banner-overlay"></div>
@@ -329,22 +350,19 @@
 
         <div class="card-content">
             
-            <!-- รูปโปรไฟล์ / Profile Avatar -->
             <div class="avatar-wrapper">
                 <div class="avatar-frame">
                     <img src="avatar.png" alt="VTuber Model" class="avatar-img">
                 </div>
             </div>
 
-            <!-- Name & Case Code -->
-            <h1 class="detective-title">SEZ</h1>
+            <h1 class="detective-title">SEZ SOLOMUEL</h1>
             <div class="case-code">[ STATUS: ACTIVE DETECTIVE ]</div>
             
             <p class="vtuber-lore">
                 "สืบหาความจริงในเงามืด... สตรีมเมอร์นักสืบสายเกม คุยเฟื่อง และเสียงเพลง"
             </p>
 
-            <!-- Social Links & Donate -->
             <div class="links-group">
                 <a href="https://youtube.com" class="btn-link" target="_blank">
                     <span>📺 YOUTUBE CHANNEL</span>
@@ -367,7 +385,6 @@
                 </a>
             </div>
 
-            <!-- Hashtags & Credits -->
             <div class="info-grid">
                 <div class="info-title">EVIDENCE HASHTAGS</div>
                 <ul class="tag-list">
