@@ -681,29 +681,27 @@ inset 0 0 20px rgba(212,175,55,.12);
 
 }
 
+
+
+
 /* ---------- Background ---------- */
 
 body{
-
-animation:bgMove 20s linear infinite;
-
+    background-color: var(--bg-base);
+    background-size: 400px 400px;
+    animation: bgMove 20s linear infinite;
 }
 
 @keyframes bgMove{
+    0%{
+        background-position: 0 0;
+    }
 
-0%{
-
-background-position:0 0;
-
+    100%{
+        background-position: 0 -300px;
+    }
 }
 
-100%{
-
-background-position:0 -300px;
-
-}
-
-}
     </style>
 </head>
 <body>
