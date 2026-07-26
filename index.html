@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VTuber Profile - Sez Solomuel</title>
-    <!-- Google Fonts Import -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Cinzel:wght@600;900&display=swap" rel="stylesheet">
@@ -15,14 +15,14 @@
            ========================================================================== */
         :root {
             --bg-base: #07070a;
-            --bg-card: rgba(18, 18, 26, 0.75);
+            --bg-card: rgba(18, 18, 26, 0.85);
             
             /* Palette: Dark / Gold / Red */
             --gold-main: #ffd700;
             --gold-glow: rgba(255, 215, 0, 0.4);
             --red-main: #ff2a5f;
             --red-glow: rgba(255, 42, 95, 0.5);
-            --dark-border: rgba(255, 215, 0, 0.2);
+            --dark-border: rgba(255, 215, 0, 0.25);
             
             --text-primary: #ffffff;
             --text-secondary: #c0c0d0;
@@ -53,7 +53,7 @@
             position: relative;
         }
 
-        /* Dynamic Background Grid & Magic Circle */
+        /* Dynamic Background Glow */
         body::before {
             content: '';
             position: absolute;
@@ -82,7 +82,7 @@
         }
 
         /* ==========================================================================
-           2. MAIN CARD CONTAINER (GLASSMORPHISM + GRADIENT BORDER)
+           2. MAIN CARD CONTAINER
            ========================================================================== */
         .card-container {
             position: relative;
@@ -92,14 +92,11 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
-            padding: 40px 28px;
-            text-align: center;
             box-shadow: 
                 0 20px 50px rgba(0, 0, 0, 0.8),
                 0 0 30px rgba(255, 42, 95, 0.15);
             border: 1px solid var(--dark-border);
             overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         /* Top Bar Highlight Effect */
@@ -111,16 +108,46 @@
             width: 100%;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--red-main), var(--gold-main), transparent);
+            z-index: 10;
         }
 
         /* ==========================================================================
-           3. PROFILE AVATAR SECTION
+           3. BANNER & PROFILE AVATAR
            ========================================================================== */
+        .banner-wrapper {
+            width: 100%;
+            height: 150px;
+            position: relative;
+            background-color: #1a1a2e;
+            overflow: hidden;
+        }
+
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 30%, var(--bg-card) 100%);
+        }
+
+        .card-content {
+            padding: 0 28px 40px;
+            text-align: center;
+        }
+
         .avatar-wrapper {
             position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px;
+            width: 120px;
+            height: 120px;
+            margin: -60px auto 15px; /* ลอยขึ้นไปเกยกับ Banner */
+            z-index: 5;
         }
 
         .avatar-frame {
@@ -144,7 +171,7 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-6px); }
         }
 
         /* ==========================================================================
@@ -152,7 +179,7 @@
            ========================================================================== */
         .vtuber-title {
             font-family: var(--font-title);
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
             letter-spacing: 2px;
             background: linear-gradient(135deg, #ffffff 30%, var(--gold-main));
@@ -166,9 +193,8 @@
             font-size: 13px;
             color: var(--text-secondary);
             font-weight: 300;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             line-height: 1.5;
-            padding: 0 10px;
         }
 
         .badge-status {
@@ -181,7 +207,7 @@
             font-size: 12px;
             padding: 4px 14px;
             border-radius: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -206,8 +232,8 @@
         .links-group {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .btn-link {
@@ -216,14 +242,14 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 14px;
+            padding: 13px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--dark-border);
             border-radius: 14px;
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             letter-spacing: 0.5px;
             overflow: hidden;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -252,17 +278,18 @@
             left: 100%;
         }
 
-        /* Accent Button (YouTube/Twitch Highlight) */
-        .btn-link.highlight {
-            border-color: var(--red-main);
-            background: rgba(255, 42, 95, 0.1);
+        /* ปุ่มเน้นพิเศษ: Donate */
+        .btn-link.btn-donate {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 42, 95, 0.2));
+            border-color: var(--gold-main);
+            color: var(--gold-main);
+            font-weight: 800;
         }
 
-        .btn-link.highlight:hover {
-            border-color: var(--red-main);
-            background: rgba(255, 42, 95, 0.2);
-            box-shadow: 0 0 20px var(--red-glow);
-            color: #ffffff;
+        .btn-link.btn-donate:hover {
+            background: linear-gradient(135deg, var(--gold-main), var(--red-main));
+            color: #000;
+            box-shadow: 0 0 25px var(--gold-glow);
         }
 
         /* ==========================================================================
@@ -284,9 +311,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .tag-list {
@@ -308,7 +332,6 @@
         .credits {
             border-top: 1px dashed rgba(255, 255, 255, 0.1);
             padding-top: 10px;
-            margin-top: 10px;
             display: flex;
             justify-content: space-between;
             color: var(--text-muted);
@@ -322,61 +345,81 @@
 </head>
 <body>
 
-    <!-- Background Decoration -->
+    <!-- Background Magic Ring -->
     <div class="bg-magic-ring"></div>
 
     <!-- Main Card Container -->
     <div class="card-container">
         
-        <!-- Profile Picture -->
-        <div class="avatar-wrapper">
-            <div class="avatar-frame">
-                <!-- เปลี่ยนชื่อไฟล์รูปภาพตรงนี้ -->
-                <img src="my-avatar.png" alt="VTuber Model" class="avatar-img">
+        <!-- รูปปก / Banner Header -->
+        <div class="banner-wrapper">
+            <!-- เปลี่ยนชื่อไฟล์รูปปกตรงนี้ -->
+            <img src="banner.png" alt="VTuber Banner" class="banner-img">
+            <div class="banner-overlay"></div>
+        </div>
+
+        <div class="card-content">
+            
+            <!-- รูปโปรไฟล์ / Profile Avatar -->
+            <div class="avatar-wrapper">
+                <div class="avatar-frame">
+                    <!-- เปลี่ยนชื่อไฟล์รูปโปรไฟล์ตรงนี้ -->
+                    <img src="avatar.png" alt="VTuber Model" class="avatar-img">
+                </div>
             </div>
-        </div>
 
-        <!-- Name & Lore -->
-        <h1 class="vtuber-title">SEZ SOLOMUEL</h1>
-        <div class="badge-status">
-            <div class="badge-dot"></div> OFFLINE / PREPARING
-        </div>
-        <p class="vtuber-lore">
-            "จอมเวทผู้ควบคุมมิติและเวลา สตรีมเมอร์สายเกมและเสียงดนตรี"
-        </p>
-
-        <!-- Social Links -->
-        <div class="links-group">
-            <a href="https://www.youtube.com/@SeztionV" class="btn-link highlight" target="_blank">
-                📺 YouTube Channel
-            </a>
-            <a href="https://twitch.tv" class="btn-link highlight" target="_blank">
-                💜 Twitch Live Stream
-            </a>
-            <a href="https://x.com" class="btn-link" target="_blank">
-                💬 Twitter / X
-            </a>
-            <a href="https://discord.com" class="btn-link" target="_blank">
-                ⚔️ Discord Community
-            </a>
-            <a href="https://marshmallow-qa.com" class="btn-link" target="_blank">
-                🎁 Marshmallow (ส่งข้อความ)
-            </a>
-        </div>
-
-        <!-- Info & Hashtags -->
-        <div class="info-grid">
-            <div class="info-title">📌 Official Hashtags</div>
-            <ul class="tag-list">
-                <li class="tag-item">#SezLIVE</li>
-                <li class="tag-item">#SezArt</li>
-                <li class="tag-item">#SezMeme</li>
-            </ul>
-
-            <div class="credits">
-                <span><b>Mama (Art):</b> @ArtistName</span>
-                <span><b>Papa (Rig):</b> @RiggerName</span>
+            <!-- Name & Lore -->
+            <h1 class="vtuber-title">SEZ SOLOMUEL</h1>
+            <div class="badge-status">
+                <div class="badge-dot"></div> LIVE / OFFLINE
             </div>
+            <p class="vtuber-lore">
+                "จอมเวทผู้ควบคุมมิติและเวลา สตรีมเมอร์สายเกมและเสียงดนตรี"
+            </p>
+
+            <!-- Social Links & Donate -->
+            <div class="links-group">
+                <!-- 1. YouTube -->
+                <a href="https://youtube.com" class="btn-link" target="_blank">
+                    📺 YouTube Channel
+                </a>
+
+                <!-- 2. Facebook Page -->
+                <a href="https://facebook.com" class="btn-link" target="_blank">
+                    📘 Facebook Page
+                </a>
+
+                <!-- 3. TikTok -->
+                <a href="https://tiktok.com" class="btn-link" target="_blank">
+                    🎵 TikTok
+                </a>
+
+                <!-- 4. Discord -->
+                <a href="https://discord.gg" class="btn-link" target="_blank">
+                    ⚔️ Discord Community
+                </a>
+
+                <!-- 5. Donate (ปุ่มโดเนทแบบเด่นพิเศษ) -->
+                <a href="https://tipme.in.th" class="btn-link btn-donate" target="_blank">
+                    👑 Support & Donate (โดเนท)
+                </a>
+            </div>
+
+            <!-- Hashtags & Credits -->
+            <div class="info-grid">
+                <div class="info-title">📌 Official Hashtags</div>
+                <ul class="tag-list">
+                    <li class="tag-item">#SezLIVE</li>
+                    <li class="tag-item">#SezArt</li>
+                    <li class="tag-item">#SezMeme</li>
+                </ul>
+
+                <div class="credits">
+                    <span><b>Mama (Art):</b> @ArtistName</span>
+                    <span><b>Papa (Rig):</b> @RiggerName</span>
+                </div>
+            </div>
+
         </div>
 
     </div>
