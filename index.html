@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEZ - ACTIVE DETECTIVE [CASE #009]</title>
+    <title>SEZ CARD</title>
     <style>
-        /* --- CSS เดิม (คงไว้ทั้งหมด) --- */
+        /* =========================================
+           1. สไตล์พื้นฐานและการจัดวาง
+           ========================================= */
         body {
-            background-color: #0d1117;
+            background-color: #0b0c10;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -15,44 +17,64 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* เพิ่มเพื่อให้หิมะไม่ทะลุหน้าจอ */
-            position: relative; /* เพิ่มเพื่อวางเลเยอร์หิมะ */
+            overflow-x: hidden;
+            position: relative;
         }
 
         .card-container {
             position: relative;
             width: 380px;
-            background: #161b22;
-            border: 1px solid #30363d;
+            background: #1f2833;
+            border: 1px solid #45a29e;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
             overflow: hidden;
-            z-index: 10; /* มั่นใจว่าการ์ดอยู่เหนือหิมะ */
+            z-index: 10;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        /* ลูกเล่น: ยกการ์ดลอยขึ้นนิดหน่อยเมื่อเมาส์ชี้ */
+        .card-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(102, 252, 241, 0.2);
+        }
+
+        /* ลูกเล่น: ตราประทับกะพริบแบบไฟสัญญาณเตือนภัย */
         .stamp-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #f85149;
-            color: white;
-            padding: 2px 8px;
+            background: #ff0055;
+            color: #ffffff;
+            padding: 3px 8px;
             font-size: 0.7rem;
             font-weight: bold;
             letter-spacing: 1px;
             border-radius: 4px;
             z-index: 5;
+            animation: pulse-red 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 2px #ff0055; }
+            100% { box-shadow: 0 0 12px #ff0055, 0 0 20px #ff0055; }
         }
 
         .banner-wrapper {
             position: relative;
             height: 120px;
+            overflow: hidden;
         }
 
         .banner-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card-container:hover .banner-img {
+            transform: scale(1.05);
         }
 
         .banner-overlay {
@@ -60,7 +82,7 @@
             bottom: 0;
             width: 100%;
             height: 50px;
-            background: linear-gradient(to top, #161b22, transparent);
+            background: linear-gradient(to top, #1f2833, transparent);
         }
 
         .card-content {
@@ -74,31 +96,41 @@
             display: inline-block;
         }
 
+        /* ลูกเล่น: กรอบรูปมีแสงนีออนหมุนรอบๆ */
         .avatar-frame {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            padding: 2px;
-            background: #30363d;
+            padding: 3px;
+            background: linear-gradient(45deg, #66fcf1, #45a29e, #ff0055);
+            animation: rotate-glow 4s linear infinite;
+        }
+
+        @keyframes rotate-glow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .avatar-img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background-color: #0d1117;
+            background-color: #0b0c10;
             object-fit: cover;
+            /* แก้หมุนกลับเพื่อให้รูปข้างในตรงเหมือนเดิม */
+            animation: rotate-glow 4s linear infinite reverse; 
         }
 
         .detective-title {
             font-size: 1.8rem;
-            margin: 0;
+            margin: 5px 0 0 0;
             letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
         .case-code {
             font-size: 0.8rem;
-            color: #58a6ff;
+            color: #66fcf1;
             letter-spacing: 1.5px;
             margin-bottom: 15px;
         }
@@ -106,8 +138,12 @@
         .vtuber-lore {
             font-style: italic;
             font-size: 0.9rem;
-            color: #8b949e;
+            color: #c5c6c7;
             margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-left: 2px solid #66fcf1;
+            border-radius: 0 4px 4px 0;
         }
 
         .links-group {
@@ -116,11 +152,13 @@
             gap: 10px;
         }
 
+        /* ลูกเล่น: ปุ่มกดมีลำแสงวิ่งผ่าน (Shine effect) */
         .btn-link {
+            position: relative;
             text-decoration: none;
-            color: #c9d1d9;
-            background: #21262d;
-            border: 1px solid #30363d;
+            color: #ffffff;
+            background: #0b0c10;
+            border: 1px solid #45a29e;
             padding: 10px;
             border-radius: 6px;
             font-size: 0.85rem;
@@ -129,34 +167,55 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 252, 241, 0.3), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn-link:hover::before {
+            left: 100%;
         }
 
         .btn-link:hover {
-            background: #30363d;
-            border-color: #8b949e;
-            color: #ffffff;
+            background: #45a29e;
+            color: #0b0c10;
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
         }
 
         .btn-donate {
-            background: #238636;
-            color: white;
-            border-color: #2ea043;
+            background: #66fcf1;
+            color: #0b0c10;
+            border-color: #66fcf1;
         }
 
         .btn-donate:hover {
-            background: #2ea043;
+            background: #ff0055;
+            border-color: #ff0055;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
         }
 
         .info-grid {
             margin-top: 20px;
-            border-top: 1px solid #30363d;
+            border-top: 1px solid #45a29e;
             padding-top: 15px;
         }
 
         .info-title {
             font-size: 0.75rem;
-            color: #8b949e;
+            color: #c5c6c7;
             margin-bottom: 10px;
         }
 
@@ -171,112 +230,56 @@
 
         .tag-item {
             font-size: 0.7rem;
-            background: #21262d;
-            color: #58a6ff;
+            background: #0b0c10;
+            color: #66fcf1;
             padding: 3px 8px;
             border-radius: 10px;
+            border: 1px solid #45a29e;
+            transition: 0.2s;
+        }
+
+        .tag-item:hover {
+            background: #66fcf1;
+            color: #0b0c10;
+            cursor: pointer;
         }
 
         .credits {
             display: flex;
             justify-content: space-around;
             font-size: 0.7rem;
-            color: #6e7681;
+            color: #c5c6c7;
         }
 
-        /* --- CSS ใหม่: เพิ่มลูกเล่นโดยไม่เปลี่ยนโครงสร้างหลัก --- */
-
-        /* 1. ตัวควบคุมเลเยอร์หิมะ (Cyber Snow) */
-        .snow-wrapper {
+        /* =========================================
+           2. สไตล์สำหรับหิมะ/ละอองแสงฉากหลัง
+           ========================================= */
+        .snowflake {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* อยู่หลังการ์ด */
-            pointer-events: none; /* เพื่อให้ยังกดคลิกการ์ดได้ปกติ */
-        }
-
-        /* 2. สไตล์ของเกล็ดหิมะ (ใช้ Pseudo-element เพื่อไม่เพิ่ม HTML tags เยอะ) */
-        .snow-wrapper::after {
-            content: "";
-            position: absolute;
             top: -10px;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* สร้างภาพหิมะด้วย Radial Gradient หลายๆ จุด */
-            background-image: 
-                radial-gradient(circle, #fff 1px, transparent 1px),
-                radial-gradient(circle, #fff 1px, transparent 1px),
-                radial-gradient(circle, #58a6ff 1px, transparent 1px), /* หิมะสีฟ้าไซเบอร์ */
-                radial-gradient(circle, #fff 1.5px, transparent 1.5px);
-            background-size: 200px 200px, 150px 150px, 300px 300px, 250px 250px;
-            background-position: 0 0, 50px 50px, 100px 100px, 150px 150px;
-            animation: snow-fall 10s linear infinite;
-            opacity: 0.6; /* ให้ดูฟุ้งๆ ไม่เด่นเกินไป */
-        }
-
-        /* 3. สไตล์ของกลุ่มก้อนพลังงาน (Floating Particles) */
-        .particles-wrapper::before {
-            content: "";
-            position: absolute;
-            bottom: 10%;
-            left: 10%;
-            width: 15px;
-            height: 15px;
-            background: #58a6ff;
-            border-radius: 50%;
-            filter: blur(5px);
-            box-shadow: 0 0 10px #58a6ff, 0 0 20px #58a6ff;
-            animation: particle-float 6s ease-in-out infinite;
-            opacity: 0.3;
+            color: #66fcf1;
+            font-size: 1rem;
+            pointer-events: none;
             z-index: 1;
-        }
-        
-        /* 4. เพิ่มขอบแสงนีออนอ่อนๆ เมื่อเมาส์ชี้ที่การ์ด (นิดเดียว ไม่เปลี่ยนรูปทรง) */
-        .card-container:hover {
-            box-shadow: 0 4px 20px rgba(88, 166, 255, 0.3);
-            border-color: #58a6ff;
-            transition: 0.3s ease-in-out;
+            animation: fall linear forwards;
         }
 
-        /* 5. เอฟเฟกต์ Glitch สั้นๆ ที่ชื่อเมื่อโหลดหน้า (แค่ให้ดูตื่นเต้น) */
-        @keyframes glitch {
-            0% { text-shadow: 0.5px 0 0 #f85149, -0.5px 0 0 #58a6ff; }
-            100% { text-shadow: none; }
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
         }
-        .detective-title {
-            animation: glitch 1s ease-out; /* เล่นแค่ครั้งเดียวตอนโหลด */
-        }
-
-        /* --- Animations (Keyframes) --- */
-
-        @keyframes snow-fall {
-            from { background-position: 0 0, 50px 50px, 100px 100px, 150px 150px; }
-            to { background-position: 0 1000px, 50px 1050px, 100px 1100px, 150px 1150px; }
-        }
-
-        @keyframes particle-float {
-            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
-            50% { transform: translateY(-50px) translateX(20px); opacity: 0.5; }
-        }
-
     </style>
 </head>
 <body>
 
-    <!-- เลเยอร์ลูกเล่นพื้นหลัง (หิมะและอนุภาค) -->
-    <div class="snow-wrapper particles-wrapper"></div>
-
-    <!-- --- โครงสร้าง HTML เดิม (คงไว้ทั้งหมด) --- -->
+    <!-- โครงสร้าง HTML เดิมของคุณเป๊ะๆ -->
     <div class="card-container">
         
         <div class="stamp-badge">CASE #009 // SECRET</div>
 
         <div class="banner-wrapper">
-            <!-- เพื่อให้โค้ดรันได้ทันที ผมใช้ภาพ placeholder แทนไฟล์โลคอลของคุณครับ -->
-            <img src="https://picsum.photos/id/1059/600/200" alt="VTuber Banner" class="banner-img">
+            <img src="112.png" alt="VTuber Banner" class="banner-img">
             <div class="banner-overlay"></div>
         </div>
 
@@ -284,8 +287,7 @@
             
             <div class="avatar-wrapper">
                 <div class="avatar-frame">
-                    <!-- เพื่อให้โค้ดรันได้ทันที ผมใช้ภาพ placeholder แทนไฟล์โลคอลของคุณครับ -->
-                    <img src="https://picsum.photos/id/64/200/200" alt="VTuber Model" class="avatar-img">
+                    <img src="avatar.png" alt="VTuber Model" class="avatar-img">
                 </div>
             </div>
 
@@ -335,6 +337,34 @@
         </div>
 
     </div>
+
+    <!-- สคริปต์ปล่อยหิมะตกฉากหลัง (ลอยอยู่ด้านหลังการ์ด) -->
+    <script>
+        function createSnowflake() {
+            const flake = document.createElement('div');
+            flake.classList.add('snowflake');
+            
+            // สุ่มใช้รูปเกล็ดหิมะ หรือละอองดาว
+            const icons = ['❄', '✦', '✧', '•'];
+            flake.innerText = icons[Math.floor(Math.random() * icons.length)];
+            
+            // สุ่มตำแหน่ง ความเร็ว ขนาด และความโปร่งแสง
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.animationDuration = Math.random() * 3 + 3 + 's'; 
+            flake.style.opacity = Math.random() * 0.7 + 0.3;
+            flake.style.fontSize = Math.random() * 10 + 8 + 'px';
+
+            document.body.appendChild(flake);
+
+            // ลบออกเมื่อตกลงไปพ้นจอ
+            setTimeout(() => {
+                flake.remove();
+            }, 6000);
+        }
+
+        // ปล่อยหิมะทุกๆ 250 มิลลิวินาที
+        setInterval(createSnowflake, 250);
+    </script>
 
 </body>
 </html>
