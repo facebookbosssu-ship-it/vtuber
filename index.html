@@ -335,6 +335,375 @@
         .credits span b {
             color: #d0d5e0;
         }
+        /* =====================================================
+   EXTRA FX PACK V1
+   เพิ่มโดยไม่ต้องแก้โค้ดเดิม
+=====================================================*/
+
+/* ---------- เปิดการ์ด ---------- */
+
+.card-container{
+    animation:cardOpen .8s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;
+    transition:
+        transform .45s,
+        box-shadow .45s;
+}
+
+@keyframes cardOpen{
+
+0%{
+opacity:0;
+transform:
+translateY(60px)
+rotateX(-35deg)
+scale(.95);
+}
+
+100%{
+opacity:1;
+transform:none;
+}
+
+}
+
+/* ---------- Hover 3D ---------- */
+
+.card-container:hover{
+
+transform:
+perspective(1200px)
+rotateX(4deg)
+rotateY(-4deg)
+translateY(-6px)
+scale(1.02);
+
+}
+
+/* ---------- Border Glow ---------- */
+
+.card-container::before{
+
+content:"";
+
+position:absolute;
+
+inset:-2px;
+
+background:
+linear-gradient(
+45deg,
+transparent,
+rgba(212,175,55,.7),
+transparent,
+rgba(158,11,15,.8),
+transparent);
+
+background-size:300% 300%;
+
+filter:blur(10px);
+
+z-index:-1;
+
+animation:borderGlow 7s linear infinite;
+
+}
+
+@keyframes borderGlow{
+
+0%{
+background-position:0% 50%;
+}
+
+100%{
+background-position:300% 50%;
+}
+
+}
+
+/* ---------- Scan Line ---------- */
+
+.card-container::after{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+top:-120%;
+
+width:100%;
+
+height:100%;
+
+background:
+linear-gradient(
+transparent,
+rgba(255,255,255,.06),
+transparent);
+
+pointer-events:none;
+
+animation:scanner 5s linear infinite;
+
+}
+
+@keyframes scanner{
+
+100%{
+
+transform:translateY(250%);
+
+}
+
+}
+
+/* ---------- Banner Zoom ---------- */
+
+.banner-img{
+
+transition:transform 8s linear;
+
+}
+
+.card-container:hover .banner-img{
+
+transform:scale(1.08);
+
+}
+
+/* ---------- Banner Light ---------- */
+
+.banner-overlay{
+
+animation:bannerLight 8s ease infinite;
+
+}
+
+@keyframes bannerLight{
+
+0%,100%{
+
+opacity:1;
+
+}
+
+50%{
+
+opacity:.75;
+
+}
+
+}
+
+/* ---------- Avatar Glow ---------- */
+
+.avatar-wrapper{
+
+animation:avatarPulse 3s ease-in-out infinite;
+
+}
+
+@keyframes avatarPulse{
+
+0%,100%{
+
+filter:
+drop-shadow(0 0 10px rgba(212,175,55,.25));
+
+}
+
+50%{
+
+filter:
+drop-shadow(0 0 28px rgba(212,175,55,.85));
+
+}
+
+}
+
+/* ---------- Avatar Rotate ---------- */
+
+.avatar-frame{
+
+transition:.45s;
+
+}
+
+.card-container:hover .avatar-frame{
+
+transform:rotate(6deg);
+
+}
+
+/* ---------- ชื่อวิบวับ ---------- */
+
+.detective-title{
+
+background-size:200% auto;
+
+animation:titleShine 6s linear infinite;
+
+}
+
+@keyframes titleShine{
+
+100%{
+
+background-position:200% center;
+
+}
+
+}
+
+/* ---------- Stamp ---------- */
+
+.stamp-badge{
+
+animation:stampBlink 2s infinite;
+
+}
+
+@keyframes stampBlink{
+
+0%,100%{
+
+opacity:1;
+
+}
+
+50%{
+
+opacity:.45;
+
+}
+
+}
+
+/* ---------- ปุ่ม ---------- */
+
+.btn-link{
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+.btn-link::after{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:60%;
+
+height:100%;
+
+background:
+
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.35),
+transparent);
+
+transform:skewX(-25deg);
+
+}
+
+.btn-link:hover::after{
+
+animation:btnShine .7s forwards;
+
+}
+
+@keyframes btnShine{
+
+100%{
+
+left:180%;
+
+}
+
+}
+
+/* ---------- ปุ่มลอย ---------- */
+
+.btn-link:hover{
+
+transform:
+translateY(-4px)
+scale(1.02);
+
+}
+
+/* ---------- Hashtag ---------- */
+
+.tag-item{
+
+transition:.3s;
+
+}
+
+.tag-item:hover{
+
+color:white;
+
+border-color:#d4af37;
+
+box-shadow:
+
+0 0 15px rgba(212,175,55,.45);
+
+transform:translateY(-2px);
+
+}
+
+/* ---------- Footer ---------- */
+
+.info-grid{
+
+transition:.35s;
+
+}
+
+.info-grid:hover{
+
+box-shadow:
+
+inset 0 0 20px rgba(212,175,55,.12);
+
+}
+
+/* ---------- Background ---------- */
+
+body{
+
+animation:bgMove 20s linear infinite;
+
+}
+
+@keyframes bgMove{
+
+0%{
+
+background-position:0 0;
+
+}
+
+100%{
+
+background-position:0 -300px;
+
+}
+
+}
     </style>
 </head>
 <body>
